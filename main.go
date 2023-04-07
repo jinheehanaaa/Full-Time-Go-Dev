@@ -28,28 +28,8 @@ func (player Player) getHealth() int {
 }
 
 func main() {
-	//users := map[string]int{}
-	users := make(map[string]int)
-
-	users["foo"] = 10
-	users["bar"] = 11
-
-	// Access
-	age, ok := users["baz"]
-	if !ok {
-		fmt.Println("baz not exist in the map")
-	} else {
-		fmt.Println("exists in the map: ", age)
-	}
-
-	// Range over key and value
-	for k, v := range users {
-		fmt.Printf("the key %s and the value %d\n", k, v)
-	}
-
-	// Delete
-	delete(users, "foo")
-
-	fmt.Println(users)
-
+	numbers := []int{}             // empty slice
+	otherNumbers := make([]int, 0) // empty slice
+	fmt.Println(numbers)
+	fmt.Println(otherNumbers)
 }
