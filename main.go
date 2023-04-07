@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 var (
 	floatVar32 float32 = 0.1
 	floatVar64 float64 = 0.1
@@ -28,8 +26,9 @@ func (player Player) getHealth() int {
 }
 
 func main() {
-	numbers := []int{}             // empty slice
-	otherNumbers := make([]int, 0) // empty slice
-	fmt.Println(numbers)
-	fmt.Println(otherNumbers)
+	numbers := [2]int{} // array (can't grow)
+	numbers[0] = 1
+	numbers[1] = 2
+	// otherNumbers := make([]int, 0)
+
 }
