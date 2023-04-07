@@ -8,15 +8,37 @@ import "fmt"
 // wooden stick
 // knife
 
-func getDamage(weaponType string) int {
+type WeaponType int
+
+func (w WeaponType) String() string {
+	switch w {
+	case Sword:
+		return "SWORD"
+	case Axe:
+		return "AXE"
+	case WoodenStick:
+		return "WOODENSTICK"
+	}
+
+	return ""
+}
+
+const (
+	Axe WeaponType = iota // increment
+	Sword
+	WoodenStick
+	Knife
+)
+
+func getDamage(weaponType WeaponType) int {
 	switch weaponType {
-	case "axe":
+	case Axe:
 		return 100
-	case "sword":
+	case Sword:
 		return 90
-	case "woodenStick":
+	case WoodenStick:
 		return 1
-	case "knife":
+	case Knife:
 		return 40
 	default:
 		panic("weapon does not exist")
@@ -24,5 +46,7 @@ func getDamage(weaponType string) int {
 }
 
 func main() {
-	fmt.Println("damage of the given weapon:", getDamage("dd"))
+	fmt.Printf("damage of the given weapon (%s) (%d):\n", Axe, getDamage(Axe))
+	fmt.Printf("damage of the given weapon (%s) (%d):\n", Sword, getDamage(Sword))
+	fmt.Printf("damage of the given weapon (%s) (%d):\n", WoodenStick, getDamage(WoodenStick))
 }
