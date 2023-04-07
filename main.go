@@ -25,10 +25,14 @@ func (player Player) getHealth() int {
 	return player.health
 }
 
+type version int
+
+type Weapon string
+
+func getWeapon(weapon Weapon) string {
+	return string(weapon)
+}
+
 func main() {
-	numbers := [2]int{} // array (can't grow)
-	numbers[0] = 1
-	numbers[1] = 2
-	// otherNumbers := make([]int, 0)
 
 }
