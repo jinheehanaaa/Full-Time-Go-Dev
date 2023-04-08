@@ -2,58 +2,20 @@ package main
 
 import "fmt"
 
-// Declaration of interface
-type NumberStorer interface {
-	GetAll() ([]int, error)
-	Put(int) error
-}
+// --program--
+// 1. something that runs / executes code (go run somefile.go)
+// => main() -> entry  function of the program
+// => package main
 
-// Changing to other DB
-type PostgresNumberStore struct {
-	// postgres values (db connection)
-}
+// --package / library / module --
+// 2. something that someone can import into their program or library
+// -> package <whatever>
 
-func (p PostgresNumberStore) GetAll() ([]int, error) {
-	return []int{1, 2, 3, 4, 5, 6, 7, 8}, nil
-}
-
-func (p PostgresNumberStore) Put(number int) error {
-	fmt.Println("store the number into the Postgres storage")
-	return nil
-}
-
-// Implementation of interface
-type MongoDBNumberStore struct {
-	// some values
-}
-
-func (m MongoDBNumberStore) GetAll() ([]int, error) {
-	return []int{1, 2, 3}, nil
-}
-
-func (m MongoDBNumberStore) Put(number int) error {
-	fmt.Println("store the number into the mogoDB storage")
-	return nil
-}
-
-type ApiServer struct {
-	numberStore NumberStorer
-}
-
+// go build -o myapp
 func main() {
-	apiServer := ApiServer{
-		numberStore: PostgresNumberStore{},
+	user := User{
+		username: "James",
+		age:      getNumber(),
 	}
-
-	// Logic
-	if err := apiServer.numberStore.Put(1); err != nil {
-		panic(err)
-	}
-
-	numbers, err := apiServer.numberStore.GetAll()
-	if err != nil {
-		panic(err)
-	}
-	// no error
-	fmt.Println(numbers)
+	fmt.Println("the user is:", user)
 }
