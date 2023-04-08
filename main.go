@@ -8,6 +8,20 @@ type NumberStorer interface {
 	Put(int) error
 }
 
+// Changing to other DB
+type PostgresNumberStore struct {
+	// postgres values (db connection)
+}
+
+func (p PostgresNumberStore) GetAll() ([]int, error) {
+	return []int{1, 2, 3, 4, 5, 6, 7, 8}, nil
+}
+
+func (p PostgresNumberStore) Put(number int) error {
+	fmt.Println("store the number into the Postgres storage")
+	return nil
+}
+
 // Implementation of interface
 type MongoDBNumberStore struct {
 	// some values
@@ -28,7 +42,12 @@ type ApiServer struct {
 
 func main() {
 	apiServer := ApiServer{
-		numberStore: MongoDBNumberStore{},
+		numberStore: PostgresNumberStore{},
+	}
+
+	// Logic
+	if err := apiServer.numberStore.Put(1); err != nil {
+		panic(err)
 	}
 
 	numbers, err := apiServer.numberStore.GetAll()
