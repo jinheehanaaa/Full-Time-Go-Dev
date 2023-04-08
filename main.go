@@ -1,21 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"mygoproject/types"
+	"mygoproject/util"
+)
 
-// --program--
-// 1. something that runs / executes code (go run somefile.go)
-// => main() -> entry  function of the program
-// => package main
-
-// --package / library / module --
-// 2. something that someone can import into their program or library
-// -> package <whatever>
+// User -> public access everywhere
+// user -> private access BUT public ijn its own package
 
 // go build -o myapp
 func main() {
-	user := User{
-		username: "James",
-		age:      getNumber(),
+	user := types.User{
+		Username: util.GetUsername(),
+		Age:      util.GetAge(),
 	}
-	fmt.Println("the user is:", user)
+	fmt.Printf("the user is: %+v", user)
 }
