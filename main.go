@@ -1,46 +1,28 @@
 package main
 
-import "fmt"
-
-type Position struct {
-	x, y int
+type Storage interface {
+	Get(id int) (any, error)
+	Put(id int, val any) error
 }
 
-func (p *Position) Move(val int) {
-	fmt.Println("The position is moved by:", val)
+type FooStorage struct{}
+
+func (s *FooStorage) Get(id int) (any, error) {
+	return nil, nil
 }
 
-type Player struct {
-	Position
+func (s *FooStorage) Put(id int, val any) error {
+	return nil
 }
 
-type Color int
-
-// fmt.Stringer
-func (c Color) String() string {
-	switch c {
-	case ColorBlue:
-		return "BLUE"
-	case ColorBlack:
-		return "BLACK"
-	case ColorYellow:
-		return "YELLOW"
-	case ColorPink:
-		return "PINK"
-	default:
-		panic("invalid color given")
-	}
+type Server struct {
+	store Storage
 }
-
-const (
-	ColorBlue Color = iota
-	ColorBlack
-	ColorYellow
-	ColorPink
-)
 
 func main() {
-	p := Player{}
-	p.Move(1000)
-	fmt.Println("the color is:", ColorBlack)
+	s := &Server{
+		store: &FooStorage{},
+	}
+	s.store.Get(1)
+	s.store.Put(1, "foo")
 }
