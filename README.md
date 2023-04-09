@@ -7,3 +7,9 @@
 
 # CMD (With Makefile)
 - <code>make run</code>
+
+# Test
+- <code>go test ./...</code>
+- <code>go test -v ./...</code>
+- <code>go test ./ -run TestEqualPlayers</code> for cache
+- <code>go test ./ -run TestEqualPlayers -count=1</code> for no cache
