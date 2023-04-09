@@ -1,19 +1,41 @@
 package main
 
-import (
-	"fmt"
-	"mygoproject/types"
-	"mygoproject/util"
-)
+import "fmt"
 
-// User -> public access everywhere
-// user -> private access BUT public ijn its own package
+type Position struct {
+	x, y int
+}
 
-// go build -o myapp
+type Entity struct {
+	name    string
+	id      string
+	version string
+	Position
+}
+
+// Avoid duplication by struct embedding
+type SpecialEntity struct {
+	Entity
+	specialRField float64
+}
+
 func main() {
-	user := types.User{
-		Username: util.GetUsername(),
-		Age:      util.GetAge(),
+
+	e := SpecialEntity{
+		specialRField: 88.88,
+		Entity: Entity{
+			//name:    "my special entity",
+			version: "1.0",
+			//id:      "my special id",
+			Position: Position{
+				x: 100,
+				y: 200,
+			},
+		},
 	}
-	fmt.Printf("the user is: %+v", user)
+	e.id = "my special id"
+	e.name = "foo"
+	e.x = 350
+	e.y = 500
+	fmt.Printf("%+v\n", e.Position)
 }
