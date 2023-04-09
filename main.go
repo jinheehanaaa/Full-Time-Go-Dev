@@ -2,26 +2,22 @@ package main
 
 import "fmt"
 
-type CustomMap[K comparable, V any] struct {
-	data map[K]V
+type Player struct {
+	HP int
 }
 
-func (m *CustomMap[K, V]) Insert(k K, v V) error {
-	m.data[k] = v
-	return nil
-}
+// if player is not a pointer we are adjusting the copy of the player
+// not the actual player.
+func TakeDamage(player Player, amount int) {
 
-func NewCustomMap[K comparable, V any]() *CustomMap[K, V] {
-	return &CustomMap[K, V]{
-		data: make(map[K]V),
-	}
-}
-
-func foo[T any, B any](val T, x B) {
-	fmt.Println(val)
+	player.HP -= amount
+	fmt.Println("player is taking damage. New HP ->", player.HP)
 }
 
 func main() {
-	foo("Hello", 1)
-
+	player := Player{
+		HP: 100,
+	}
+	TakeDamage(player, 10)
+	fmt.Printf("%+v\n", player)
 }
