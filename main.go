@@ -1,57 +1,29 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
-type Putter interface {
-	Put(id int, val any) error
-	fmt.Stringer
+type TransformFunc func(s string) string
+
+func Uppercase(s string) string {
+	return strings.ToUpper(s)
 }
 
-type Storage interface {
-	// .. many implementations
-
-	Putter
-	Get(id int) (any, error)
+func Prefixer(prefix string) TransformFunc {
+	return func(s string) string {
+		return prefix + s
+	}
 }
 
-type simplePutter struct{}
-
-func (s *simplePutter) Put(id int, val any) error {
-	return nil
-}
-
-func (s *simplePutter) String() string { return "Hello" }
-
-type FooStorage struct{}
-
-func (s *FooStorage) Get(id int) (any, error) {
-	return nil, nil
-}
-
-func (s *FooStorage) Put(id int, val any) error {
-	return nil
-}
-
-type BarStorage struct{}
-
-func (s *BarStorage) Get(id int) (any, error) {
-	return nil, nil
-}
-
-func (s *BarStorage) Put(id int, val any) error {
-	return nil
-}
-
-type Server struct {
-	store Storage
-}
-
-func updateValue(id int, val any, p Putter) error {
-	return p.Put(id, val)
+func transformString(s string, fn TransformFunc) string {
+	return fn(s)
 }
 
 func main() {
-	sputter := &simplePutter{}
+	fmt.Println(transformString("hello World!", Uppercase))
+	fmt.Println(transformString("hello World!", Prefixer("FOO_")))
+	fmt.Println(transformString("hello World!", Prefixer("BAR_")))
 
-	updateValue(1, "foo", sputter)
 }
