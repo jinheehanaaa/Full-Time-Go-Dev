@@ -1,30 +1,23 @@
 package main
 
-import "fmt"
-
-type Player struct {
-	HP int
+type Database struct {
+	user string
 }
 
-// if player is not a pointer we are adjusting the copy of the player
-// not the actual player.
-func TakeDamage(player *Player, amount int) {
-
-	player.HP -= amount
-	fmt.Println("player is taking damage. New HP ->", player.HP)
+type Server struct {
+	db *Database // uinttr => 8 bytes long
 }
 
-// Function receiver
-func (p *Player) TakeDamage(amount int) {
-	p.HP -= amount
-	fmt.Println("PLAYER IS TAKING DAMAGE. nEW hp ->", p.HP)
+func (s Server) GetUserFromDB() string {
+	// golang is going to "dereference" the db pointer
+	// it's going to lookup the memory address of that pointer
+	if s.db == nil {
+		panic("database is not initialized")
+	}
+	return s.db.user
 }
 
 func main() {
-	player := &Player{
-		HP: 100,
-	}
-	//TakeDamage(player, 10) // Function
-	player.TakeDamage(10) // Method
-	fmt.Printf("%+v\n", player)
+	s := &Server{}
+	s.GetUserFromDB()
 }
