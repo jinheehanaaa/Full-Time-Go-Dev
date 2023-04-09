@@ -1,9 +1,26 @@
 package main
 
-type Storage interface {
-	Get(id int) (any, error)
+import "fmt"
+
+type Putter interface {
 	Put(id int, val any) error
+	fmt.Stringer
 }
+
+type Storage interface {
+	// .. many implementations
+
+	Putter
+	Get(id int) (any, error)
+}
+
+type simplePutter struct{}
+
+func (s *simplePutter) Put(id int, val any) error {
+	return nil
+}
+
+func (s *simplePutter) String() string { return "Hello" }
 
 type FooStorage struct{}
 
@@ -29,14 +46,12 @@ type Server struct {
 	store Storage
 }
 
-func updateValue(id int, val any, store Storage) error {
-	return store.Put(id, val)
+func updateValue(id int, val any, p Putter) error {
+	return p.Put(id, val)
 }
 
 func main() {
-	s := &Server{
-		store: &FooStorage{},
-	}
+	sputter := &simplePutter{}
 
-	updateValue(1, "foo", s.store)
+	updateValue(1, "foo", sputter)
 }
