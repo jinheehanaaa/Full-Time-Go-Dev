@@ -6,36 +6,41 @@ type Position struct {
 	x, y int
 }
 
-type Entity struct {
-	name    string
-	id      string
-	version string
+func (p *Position) Move(val int) {
+	fmt.Println("The position is moved by:", val)
+}
+
+type Player struct {
 	Position
 }
 
-// Avoid duplication by struct embedding
-type SpecialEntity struct {
-	Entity
-	specialRField float64
+type Color int
+
+// fmt.Stringer
+func (c Color) String() string {
+	switch c {
+	case ColorBlue:
+		return "BLUE"
+	case ColorBlack:
+		return "BLACK"
+	case ColorYellow:
+		return "YELLOW"
+	case ColorPink:
+		return "PINK"
+	default:
+		panic("invalid color given")
+	}
 }
 
-func main() {
+const (
+	ColorBlue Color = iota
+	ColorBlack
+	ColorYellow
+	ColorPink
+)
 
-	e := SpecialEntity{
-		specialRField: 88.88,
-		Entity: Entity{
-			//name:    "my special entity",
-			version: "1.0",
-			//id:      "my special id",
-			Position: Position{
-				x: 100,
-				y: 200,
-			},
-		},
-	}
-	e.id = "my special id"
-	e.name = "foo"
-	e.x = 350
-	e.y = 500
-	fmt.Printf("%+v\n", e.Position)
+func main() {
+	p := Player{}
+	p.Move(1000)
+	fmt.Println("the color is:", ColorBlack)
 }
