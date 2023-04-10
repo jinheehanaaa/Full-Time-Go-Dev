@@ -9,7 +9,8 @@ import (
 
 func main() {
 	start := time.Now()
-	userID, err := fetchUserID()
+	ctx := context.WithValue(context.Background(), "username", "jinheehan")
+	userID, err := fetchUserID(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -17,9 +18,12 @@ func main() {
 	fmt.Printf("the response took %v -> %+v\n", time.Since(start), userID)
 }
 
-func fetchUserID() (string, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond*100)
+func fetchUserID(ctx context.Context) (string, error) {
+	ctx, cancel := context.WithTimeout(ctx, time.Millisecond*100)
 	defer cancel()
+
+	val := ctx.Value("username")
+	fmt.Println("the value = ", val)
 
 	type result struct {
 		userId string
@@ -49,6 +53,6 @@ func fetchUserID() (string, error) {
 }
 
 func thirdpartyHTTPCall() (string, error) {
-	time.Sleep(time.Millisecond * 101)
+	time.Sleep(time.Millisecond * 99)
 	return "user id 1", nil
 }
