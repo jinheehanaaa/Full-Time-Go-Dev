@@ -13,3 +13,4 @@
 - <code>go test -v ./...</code>
 - <code>go test ./ -run TestEqualPlayers</code> for cache
 - <code>go test ./ -run TestEqualPlayers -count=1</code> for no cache
+- <code>go test -v -run TestState -v -count=1 --race</code> for race condition
