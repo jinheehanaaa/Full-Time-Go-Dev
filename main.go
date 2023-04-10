@@ -26,17 +26,23 @@ func (s *Server) sendMessage(msg string) {
 	s.msgch <- msg
 }
 
+func (s *Server) quit() {
+	//close(s.quitch)
+	s.quitch <- struct{}{}
+}
+
 func (s *Server) loop() {
+mainloop:
 	for {
 		select {
 		case <-s.quitch:
-			// do some stuff when we need to quit
+			fmt.Println("quiting server")
+			break mainloop
 		case msg := <-s.msgch:
-			// do some stuff when we have a message
 			s.handleMessage(msg)
-		default:
 		}
 	}
+	fmt.Println("server is shutting down gracefully")
 }
 
 func (s *Server) handleMessage(msg string) {
@@ -45,10 +51,14 @@ func (s *Server) handleMessage(msg string) {
 
 func main() {
 	server := newServer()
-	go server.start()
 
-	for i := 0; i < 100; i++ {
-		server.sendMessage(fmt.Sprintf("handle this number %d", i))
-	}
-	time.Sleep(time.Second * 5)
+	go func() {
+		time.Sleep(time.Second * 5)
+		server.quit()
+	}()
+
+	server.start()
+
+	// write code here -> will not work
+
 }
